@@ -162,7 +162,7 @@ void apogrv_reset(qk_tap_dance_state_t *state, void *user_data) {
 void shftcps_finished(qk_tap_dance_state_t *state, void *user_data) {
     td_state = cur_dance(state);
     switch (td_state) {
-        case TD_SINGLE_TAP: register_code(KC_ENTER);break;
+        case TD_SINGLE_TAP: register_mods(MOD_BIT(KC_LSFT));
         case TD_SINGLE_HOLD: register_mods(MOD_BIT(KC_LSFT)); break;
 		case TD_DOUBLE_TAP: register_code(KC_CAPS); break;
 		default: break;
@@ -171,7 +171,7 @@ void shftcps_finished(qk_tap_dance_state_t *state, void *user_data) {
 
 void shftcps_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
-        case TD_SINGLE_TAP: unregister_code(KC_ENTER); break;
+        case TD_SINGLE_TAP: register_mods(MOD_BIT(KC_LSFT));
         case TD_SINGLE_HOLD: unregister_mods(MOD_BIT(KC_LSFT)); break;
 		case TD_DOUBLE_TAP: unregister_code(KC_CAPS); break;
 		default: break;
