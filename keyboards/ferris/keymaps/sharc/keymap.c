@@ -33,7 +33,8 @@ typedef struct {
 enum {
     DOT_EXCL,
     APO_GRV,
-	SHFT_CPS
+	SHFT_CPS,
+    CTRL_WIN
 };
 
 // Create a global instance of the tapdance state type
@@ -47,15 +48,17 @@ void dotexcl_finished(qk_tap_dance_state_t *state, void *user_data);
 void dotexcl_reset(qk_tap_dance_state_t *state, void *user_data);
 void apogrv_finished(qk_tap_dance_state_t *state, void *user_data);
 void apogrv_reset(qk_tap_dance_state_t *state, void *user_data);
+void ctrlwin_finished(qk_tap_dance_state_t *state, void *user_data);
+void ctrlwin_reset(qk_tap_dance_state_t *state, void *user_data);
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[0] = LAYOUT_split_3x5_2(
-		KC_Y, 	KC_C, 	KC_L, 			KC_M, 			KC_K, 						KC_Z, 	KC_F, 			KC_U,	 	KC_COMMA, 		TD(APO_GRV),
-		KC_I, 	KC_S, 	LCTL_T(KC_R),	LGUI_T(KC_T), 	KC_G,						KC_P, 	KC_N,			KC_E,		KC_A, 			KC_O,
-		KC_Q, 	KC_V, 	KC_W, 			KC_D, 			KC_J, 						KC_B, 	KC_H, 			KC_SLSH, 	TD(DOT_EXCL), 	KC_X,
+		KC_Y, 	KC_C, 	KC_L, 		KC_M, 		KC_K, 						KC_Z, 	KC_F, 			KC_U,	 	KC_COMMA, 		TD(APO_GRV),
+		KC_I, 	KC_S, 	KC_R,	    KC_T, 	    KC_G,						KC_P, 	KC_N,			KC_E,		KC_A, 			KC_O,
+		KC_Q, 	KC_V, 	KC_W, 		KC_D, 		KC_J, 						KC_B, 	KC_H, 			KC_SLSH, 	TD(DOT_EXCL), 	KC_X,
 
-			  							TD(SHFT_CPS), 	TO(1), 						KC_RIGHT_CTRL, 	KC_SPACE),
+			  					TD(SHFT_CPS), 	TO(1), 						TD(CTRL_WIN), 	        KC_SPACE),
 																																			//.
 
 	[1] = LAYOUT_split_3x5_2(
@@ -178,9 +181,29 @@ void shftcps_reset(qk_tap_dance_state_t *state, void *user_data) {
     }
 }
 
+void ctrlwin_finished(qk_tap_dance_state_t *state, void *user_data) {
+    td_state = cur_dance(state);
+    switch (td_state) {
+        case TD_SINGLE_HOLD: register_mods(MOD_BIT(KC_RIGHT_CTRL)); break;
+		case TD_DOUBLE_TAP: register_mods(MOD_BIT(KC_LGUI)); break;
+        case TD_DOUBLE_HOLD: register_mods(MOD_BIT(KC_LGUI)); break;
+		default: break;
+    }
+}
+
+void ctrlwin_reset(qk_tap_dance_state_t *state, void *user_data) {
+    switch (td_state) {
+        case TD_SINGLE_HOLD: unregister_mods(MOD_BIT(KC_RIGHT_CTRL)); break;
+		case TD_DOUBLE_TAP: unregister_mods(MOD_BIT(KC_LGUI)); break;
+        case TD_DOUBLE_HOLD: unregister_mods(MOD_BIT(KC_LGUI)); break;
+		default: break;
+    }
+}
+
 // Associate tap dance key with its functionality
 qk_tap_dance_action_t tap_dance_actions[] = {
     [DOT_EXCL] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, dotexcl_finished, dotexcl_reset),
 	[APO_GRV] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, apogrv_finished, apogrv_reset),
-	[SHFT_CPS] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, shftcps_finished, shftcps_reset)
+	[SHFT_CPS] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, shftcps_finished, shftcps_reset),
+    [CTRL_WIN] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, ctrlwin_finished, ctrlwin_reset)
 };
