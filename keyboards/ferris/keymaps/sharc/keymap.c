@@ -62,19 +62,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 																																			//.
 
 	[1] = LAYOUT_split_3x5_2(
-		KC_GESC, 	KC_AT, 		KC_HASH, 	KC_DLR, 	KC_PERC, 					KC_CIRC, 	KC_AMPR, 	KC_ASTR, 	KC_DEL, 	KC_BSPC,
-		KC_TAB, 	UNDO, 		COPY, 		PASTE, 		KC_NO, 						KC_MINS, 	KC_LPRN, 	KC_RPRN, 	KC_SCLN, 	KC_ENT,
-		ALL, 		CUT, 		KC_HOME, 	KC_END, 	TO(3), 						KC_DQUO, 	KC_LCBR, 	KC_RCBR, 	KC_BSLS, 	KC_QUES,
+		KC_GESC, 	KC_AT, 		KC_HASH, 	KC_DLR, 	    KC_PERC, 					KC_CIRC, 	KC_AMPR, 	KC_ASTR, 	KC_DEL, 	KC_BSPC,
+		KC_TAB, 	UNDO, 		COPY, 		PASTE, 		    KC_NO, 						KC_MINS, 	KC_LPRN, 	KC_RPRN, 	KC_SCLN, 	KC_ENT,
+		ALL, 		KC_HOME, 	CUT, 	    ALT_T(KC_END), 	TO(3), 						KC_DQUO, 	KC_LCBR, 	KC_RCBR, 	KC_BSLS, 	KC_QUES,
 
-								MT(MOD_LALT, KC_ENT), 	TO(2),						TO(0), KC_RCTL),
+								            KC_LSFT, 	    TO(2),						TO(0), KC_RCTL),
 																																			//.
 
 	[2] = LAYOUT_split_3x5_2(
-		KC_NO, KC_NO, 	KC_UP, 		KC_NO, 		KC_NO, 				KC_EQL, 	KC_7, 	KC_8, 	KC_9, 	KC_BSPC,
-		KC_NO, KC_LEFT, KC_DOWN, 	KC_RGHT, 	KC_NO,				KC_MINS, 	KC_4, 	KC_5, 	KC_6, 	KC_ENT,
-		KC_NO, KC_NO, 	KC_NO, 		KC_NO, 		KC_NO, 				KC_DOT, 	KC_1, 	KC_2, 	KC_3, 	KC_NO,
+		KC_NO,  KC_NO, 	    KC_UP, 		KC_NO, 		KC_NO, 				KC_EQL, 	KC_7, 	KC_8, 	KC_9, 	KC_BSPC,
+		KC_NO,  KC_LEFT,    KC_DOWN, 	KC_RGHT, 	KC_NO,				KC_MINS, 	KC_4, 	KC_5, 	KC_6, 	KC_ENT,
+		KC_NO,  KC_HOME,    KC_NO, 	    KC_END, 	KC_NO, 				KC_DOT, 	KC_1, 	KC_2, 	KC_3, 	KC_NO,
 
-								 	KC_SFTENT, 	KC_NO, 				TO(0), 	KC_0),
+								 	KC_SFTENT, 	KC_NO, 				    TO(0), 	KC_0),
 							 																												//.
 
 
@@ -125,9 +125,9 @@ void dotexcl_finished(qk_tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
         case TD_SINGLE_TAP: register_code(KC_DOT);break;
         case TD_SINGLE_HOLD: register_code16(KC_EXLM); break;
-		case TD_DOUBLE_TAP: register_code(KC_MINS); break;
-        case TD_DOUBLE_HOLD: register_code16(KC_UNDS); break;
-        case TD_DOUBLE_SINGLE_TAP: tap_code(KC_DOT); register_code(KC_DOT); break;
+		case TD_DOUBLE_TAP: register_code16(KC_COLN); break;
+        case TD_DOUBLE_HOLD: register_code16(KC_SCLN); break;
+        case TD_DOUBLE_SINGLE_TAP: tap_code(KC_MINS); break;
 		case TD_TRIPLE_TAP: tap_code(KC_DOT); register_code(KC_DOT); register_code(KC_DOT); break;
 		default: break;
     }
@@ -137,9 +137,9 @@ void dotexcl_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
         case TD_SINGLE_TAP: unregister_code(KC_DOT); break;
         case TD_SINGLE_HOLD: unregister_code16(KC_EXLM); break;
-		case TD_DOUBLE_TAP: unregister_code(KC_MINS); break;
-        case TD_DOUBLE_HOLD: unregister_code16(KC_UNDS); break;
-        case TD_DOUBLE_SINGLE_TAP: unregister_code(KC_DOT); break;
+		case TD_DOUBLE_TAP: unregister_code16(KC_COLN); break;
+        case TD_DOUBLE_HOLD: unregister_code16(KC_SCLN); break;
+        case TD_DOUBLE_SINGLE_TAP: unregister_code(KC_MINS); break;
 		case TD_TRIPLE_TAP: unregister_code(KC_DOT); break;
 		default: break;
     }
