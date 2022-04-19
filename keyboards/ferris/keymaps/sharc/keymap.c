@@ -73,7 +73,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 	[1] = LAYOUT_split_3x5_2(
 		KC_GESC, 	KC_AT, 		KC_HASH, 	KC_DLR,     KC_PERC, 			        KC_CIRC, 	KC_AMPR, 	    KC_ASTR, 	    KC_EQUAL, 	KC_BSPC,
-		KC_TAB, 	UNDO, 		COPY, 		PASTE,      KC_NO, 				        KC_MINS, 	TD(LPRN_LT),    TD(RPRN_GT),    KC_SCLN, 	KC_ENT,
+		KC_TAB, 	UNDO, 		COPY, 		PASTE,      KC_F2, 				        KC_MINS, 	TD(LPRN_LT),    TD(RPRN_GT),    KC_SCLN, 	KC_ENT,
 		ALL, 		KC_HOME, 	CUT, 	    KC_END,     TO(3), 				        KC_UNDS, 	KC_LBRC, 	    KC_RBRC, 	    KC_BSLS, 	KC_DEL,
 
 								        KC_LSFT, 	TD(TO_TWO),			            TO(0),      KC_RIGHT_CTRL),
@@ -108,7 +108,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [5] = LAYOUT_split_3x5_2(
         KC_NO, 	    KC_NO, 	    KC_NO, 	    KC_NO, 	    KC_NO, 					    KC_NO, 	KC_NO, 	KC_LBRC,    KC_NO, 	    KC_NO,
         KC_NO, 	    KC_MINS,    KC_NO, 	    KC_NO, 	    KC_NO, 					    KC_NO,	KC_NO, 	KC_NO, 	    KC_QUOT,    KC_SCLN,
-        KC_NO, 	    KC_NO, 	    KC_NO, 	    C_NO, 	    KC_NO, 					    KC_NO, 	KC_NO, 	KC_NO, 	    KC_NO, 	    KC_NO,
+        KC_NO, 	    KC_NO, 	    KC_NO, 	    KC_NO, 	    KC_NO, 					    KC_NO, 	KC_NO, 	KC_NO, 	    KC_NO, 	    KC_NO,
 
                                             KC_NO, 	    KC_NO, 					    TO(0), 	KC_NO)
                                                                                                                                             //.
