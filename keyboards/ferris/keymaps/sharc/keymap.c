@@ -36,7 +36,6 @@ enum {
     APO_GRV,
 	SHFT_CPS,
     CTRL_WIN,
-    TO_ZERO,
     TO_ONE,
     TO_TWO
 };
@@ -54,8 +53,6 @@ void apogrv_finished(qk_tap_dance_state_t *state, void *user_data);
 void apogrv_reset(qk_tap_dance_state_t *state, void *user_data);
 void ctrlwin_finished(qk_tap_dance_state_t *state, void *user_data);
 void ctrlwin_reset(qk_tap_dance_state_t *state, void *user_data);
-void tozero_finished(qk_tap_dance_state_t *state, void *user_data);
-void tozero_reset(qk_tap_dance_state_t *state, void *user_data);
 void toone_finished(qk_tap_dance_state_t *state, void *user_data);
 void toone_reset(qk_tap_dance_state_t *state, void *user_data);
 void totwo_finished(qk_tap_dance_state_t *state, void *user_data);
@@ -76,7 +73,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		KC_TAB, 	UNDO, 		COPY, 		PASTE, 		    KC_NO, 					    KC_MINS, 	KC_LPRN, 	KC_RPRN, 	KC_SCLN, 	KC_ENT,
 		ALL, 		KC_HOME, 	CUT, 	    KC_END, 	    TO(3), 						KC_DQUO, 	KC_LCBR, 	KC_RCBR, 	KC_BSLS, 	KC_QUES,
 
-								            KC_LSFT, 	    TD(TO_TWO),					TD(TO_ZERO), KC_NO),
+								            KC_LSFT, 	    TD(TO_TWO),					TO(0), KC_RIGHT_CTRL),
 																																			//.
 
 	[2] = LAYOUT_split_3x5_2(
@@ -84,7 +81,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		KC_NO,  KC_LEFT,    KC_DOWN, 	KC_RGHT, 	KC_NO,				KC_MINS, 	KC_4, 	KC_5, 	KC_6, 	KC_ENT,
 		KC_NO,  KC_HOME,    KC_NO, 	    KC_END, 	KC_NO, 				KC_DOT, 	KC_1, 	KC_2, 	KC_3, 	KC_NO,
 
-								 	KC_SFTENT, 	KC_NO, 				    TO(0), 	KC_0),
+								 	KC_SFTENT, 	KC_NO, 				    TO(0), 	KC_RIGHT_CTRL),
 							 																												//.
 
 
@@ -102,7 +99,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		KC_NO, 	KC_NO, 	KC_NO, 	KC_NO, 	KC_NO, 					KC_MSTP,	KC_VOLD, 	KC_MRWD, 	KC_MFFD, 	KC_BRID,
 		KC_NO, 	KC_NO, 	KC_NO, 	KC_NO, 	KC_NO, 					KC_NO, 		KC_MUTE, 	KC_NO, 		KC_NO, 		KC_NO,
 
-							 	KC_NO, 	KC_NO, 					TD(TO_ZERO), 	KC_NO),
+							 	KC_NO, 	KC_NO, 					TO(0), 	KC_NO),
 								 																											//.
 
     [5] = LAYOUT_split_3x5_2(
@@ -202,6 +199,7 @@ void shftcps_reset(qk_tap_dance_state_t *state, void *user_data) {
 void ctrlwin_finished(qk_tap_dance_state_t *state, void *user_data) {
     td_state = cur_dance(state);
     switch (td_state) {
+        case TD_SINGLE_TAP: register_code(KC_RIGHT_CTRL); break;
         case TD_SINGLE_HOLD: register_code(KC_RIGHT_CTRL); break;
 		case TD_DOUBLE_TAP: register_code(KC_LGUI); break;
         case TD_DOUBLE_HOLD: register_code(KC_LGUI); break;
@@ -211,26 +209,10 @@ void ctrlwin_finished(qk_tap_dance_state_t *state, void *user_data) {
 
 void ctrlwin_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
+        case TD_SINGLE_TAP: unregister_code(KC_RIGHT_CTRL); break;
         case TD_SINGLE_HOLD: unregister_code(KC_RIGHT_CTRL); break;
 		case TD_DOUBLE_TAP: unregister_code(KC_LGUI); break;
         case TD_DOUBLE_HOLD: unregister_code(KC_LGUI); break;
-		default: break;
-    }
-}
-
-void tozero_finished(qk_tap_dance_state_t *state, void *user_data) {
-    td_state = cur_dance(state);
-    switch (td_state) {
-        case TD_SINGLE_TAP: layer_move(0); break;
-        case TD_SINGLE_HOLD: register_code(KC_RIGHT_CTRL); break;
-		default: break;
-    }
-}
-
-void tozero_reset(qk_tap_dance_state_t *state, void *user_data) {
-    switch (td_state) {
-        case TD_SINGLE_TAP: break;
-        case TD_SINGLE_HOLD: unregister_code(KC_RIGHT_CTRL); break;
 		default: break;
     }
 }
@@ -240,14 +222,20 @@ void toone_finished(qk_tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
         case TD_SINGLE_TAP: layer_move(1); break;
         case TD_SINGLE_HOLD: layer_move(5); break;
-		default: break;
+        case TD_DOUBLE_TAP: layer_move(2); break;
+        case TD_DOUBLE_SINGLE_TAP: layer_move(2); break;
+        case TD_TRIPLE_TAP: layer_move(3); break;
+        default: break;
     }
 }
 
 void toone_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
-        case TD_SINGLE_TAP: break;
-        case TD_SINGLE_HOLD: layer_move(0); break;
+        case TD_SINGLE_TAP: clear_keyboard(); break;
+        case TD_SINGLE_HOLD: clear_keyboard(); break;
+        case TD_DOUBLE_TAP: clear_keyboard(); break;
+        case TD_DOUBLE_SINGLE_TAP: clear_keyboard(); break;
+        case TD_TRIPLE_TAP: clear_keyboard(); break;
 		default: break;
     }
 }
@@ -265,10 +253,10 @@ void totwo_finished(qk_tap_dance_state_t *state, void *user_data) {
 
 void totwo_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
-        case TD_SINGLE_TAP: break;
+        case TD_SINGLE_TAP: clear_keyboard(); break;
         case TD_SINGLE_HOLD: unregister_code(KC_LALT); break;
-        case TD_DOUBLE_TAP: break;
-        case TD_DOUBLE_SINGLE_TAP: break;
+        case TD_DOUBLE_TAP: clear_keyboard(); break;
+        case TD_DOUBLE_SINGLE_TAP: clear_keyboard(); break;
 		default: break;
     }
 }
@@ -279,7 +267,6 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 	[APO_GRV] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, apogrv_finished, apogrv_reset),
 	[SHFT_CPS] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, shftcps_finished, shftcps_reset),
     [CTRL_WIN] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, ctrlwin_finished, ctrlwin_reset),
-    [TO_ZERO] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, tozero_finished, tozero_reset),
     [TO_ONE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, toone_finished, toone_reset),
     [TO_TWO] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, totwo_finished, totwo_reset)
 };
