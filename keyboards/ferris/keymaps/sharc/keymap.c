@@ -34,7 +34,9 @@ enum {
     DOT_EXCL,
     APO_GRV,
 	SHFT_CPS,
-    CTRL_WIN
+    CTRL_WIN,
+    TO_ZERO,
+    TO_TWO
 };
 
 // Create a global instance of the tapdance state type
@@ -50,6 +52,10 @@ void apogrv_finished(qk_tap_dance_state_t *state, void *user_data);
 void apogrv_reset(qk_tap_dance_state_t *state, void *user_data);
 void ctrlwin_finished(qk_tap_dance_state_t *state, void *user_data);
 void ctrlwin_reset(qk_tap_dance_state_t *state, void *user_data);
+void tozero_finished(qk_tap_dance_state_t *state, void *user_data);
+void tozero_reset(qk_tap_dance_state_t *state, void *user_data);
+void totwo_finished(qk_tap_dance_state_t *state, void *user_data);
+void totwo_reset(qk_tap_dance_state_t *state, void *user_data);
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -64,9 +70,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[1] = LAYOUT_split_3x5_2(
 		KC_GESC, 	KC_AT, 		KC_HASH, 	KC_DLR, 	    KC_PERC, 					KC_CIRC, 	KC_AMPR, 	KC_ASTR, 	KC_DEL, 	KC_BSPC,
 		KC_TAB, 	UNDO, 		COPY, 		PASTE, 		    KC_NO, 						KC_MINS, 	KC_LPRN, 	KC_RPRN, 	KC_SCLN, 	KC_ENT,
-		ALL, 		KC_HOME, 	CUT, 	    ALT_T(KC_END), 	TO(3), 						KC_DQUO, 	KC_LCBR, 	KC_RCBR, 	KC_BSLS, 	KC_QUES,
+		ALL, 		KC_HOME, 	CUT, 	    KC_END, 	    TO(3), 						KC_DQUO, 	KC_LCBR, 	KC_RCBR, 	KC_BSLS, 	KC_QUES,
 
-								            KC_LSFT, 	    TO(2),						TO(0), KC_RCTL),
+								            KC_LSFT, 	    TD(TO_TWO),					TD(TO_ZERO), KC_NO),
 																																			//.
 
 	[2] = LAYOUT_split_3x5_2(
@@ -165,7 +171,7 @@ void apogrv_reset(qk_tap_dance_state_t *state, void *user_data) {
 void shftcps_finished(qk_tap_dance_state_t *state, void *user_data) {
     td_state = cur_dance(state);
     switch (td_state) {
-        case TD_SINGLE_TAP: register_mods(MOD_BIT(KC_LSFT));
+        case TD_SINGLE_TAP: register_mods(MOD_BIT(KC_LSFT)); break;
         case TD_SINGLE_HOLD: register_mods(MOD_BIT(KC_LSFT)); break;
 		case TD_DOUBLE_TAP: register_code(KC_CAPS); break;
 		default: break;
@@ -174,7 +180,7 @@ void shftcps_finished(qk_tap_dance_state_t *state, void *user_data) {
 
 void shftcps_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
-        case TD_SINGLE_TAP: register_mods(MOD_BIT(KC_LSFT));
+        case TD_SINGLE_TAP: register_mods(MOD_BIT(KC_LSFT)); break;
         case TD_SINGLE_HOLD: unregister_mods(MOD_BIT(KC_LSFT)); break;
 		case TD_DOUBLE_TAP: unregister_code(KC_CAPS); break;
 		default: break;
@@ -200,10 +206,50 @@ void ctrlwin_reset(qk_tap_dance_state_t *state, void *user_data) {
     }
 }
 
+void tozero_finished(qk_tap_dance_state_t *state, void *user_data) {
+    td_state = cur_dance(state);
+    switch (td_state) {
+        case TD_SINGLE_TAP: layer_move(0); break;
+        case TD_SINGLE_HOLD: register_mods(MOD_BIT(KC_RIGHT_CTRL)); break;
+		default: break;
+    }
+}
+
+void tozero_reset(qk_tap_dance_state_t *state, void *user_data) {
+    switch (td_state) {
+        case TD_SINGLE_TAP: layer_move(0); break;
+        case TD_SINGLE_HOLD: unregister_mods(MOD_BIT(KC_RIGHT_CTRL)); break;
+		default: break;
+    }
+}
+
+void totwo_finished(qk_tap_dance_state_t *state, void *user_data) {
+    td_state = cur_dance(state);
+    switch (td_state) {
+        case TD_SINGLE_TAP: layer_move(2); break;
+        case TD_SINGLE_HOLD: register_mods(MOD_BIT(KC_LALT)); break;
+        case TD_DOUBLE_TAP: layer_move(3); break;
+        case TD_DOUBLE_SINGLE_TAP: layer_move(3); break;
+		default: break;
+    }
+}
+
+void totwo_reset(qk_tap_dance_state_t *state, void *user_data) {
+    switch (td_state) {
+        case TD_SINGLE_TAP: layer_move(2); break;
+        case TD_SINGLE_HOLD: unregister_mods(MOD_BIT(KC_LALT)); break;
+        case TD_DOUBLE_TAP: layer_move(3); break;
+        case TD_DOUBLE_SINGLE_TAP: layer_move(3); break;
+		default: break;
+    }
+}
+
 // Associate tap dance key with its functionality
 qk_tap_dance_action_t tap_dance_actions[] = {
     [DOT_EXCL] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, dotexcl_finished, dotexcl_reset),
 	[APO_GRV] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, apogrv_finished, apogrv_reset),
 	[SHFT_CPS] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, shftcps_finished, shftcps_reset),
-    [CTRL_WIN] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, ctrlwin_finished, ctrlwin_reset)
+    [CTRL_WIN] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, ctrlwin_finished, ctrlwin_reset),
+    [TO_ZERO] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, tozero_finished, tozero_reset),
+    [TO_TWO] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, totwo_finished, totwo_reset)
 };
