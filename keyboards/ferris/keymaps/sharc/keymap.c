@@ -183,8 +183,8 @@ void apogrv_reset(qk_tap_dance_state_t *state, void *user_data) {
 void shftcps_finished(qk_tap_dance_state_t *state, void *user_data) {
     td_state = cur_dance(state);
     switch (td_state) {
-        case TD_SINGLE_TAP: register_mods(MOD_BIT(KC_LSFT)); break;
-        case TD_SINGLE_HOLD: register_mods(MOD_BIT(KC_LSFT)); break;
+        case TD_SINGLE_TAP: register_code(KC_LSFT); break;
+        case TD_SINGLE_HOLD: register_code(KC_LSFT); break;
 		case TD_DOUBLE_TAP: register_code(KC_CAPS); break;
 		default: break;
     }
@@ -192,8 +192,8 @@ void shftcps_finished(qk_tap_dance_state_t *state, void *user_data) {
 
 void shftcps_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
-        case TD_SINGLE_TAP: register_mods(MOD_BIT(KC_LSFT)); break;
-        case TD_SINGLE_HOLD: unregister_mods(MOD_BIT(KC_LSFT)); break;
+        case TD_SINGLE_TAP: unregister_code(KC_LSFT); break;
+        case TD_SINGLE_HOLD: unregister_code(KC_LSFT); break;
 		case TD_DOUBLE_TAP: unregister_code(KC_CAPS); break;
 		default: break;
     }
@@ -202,18 +202,18 @@ void shftcps_reset(qk_tap_dance_state_t *state, void *user_data) {
 void ctrlwin_finished(qk_tap_dance_state_t *state, void *user_data) {
     td_state = cur_dance(state);
     switch (td_state) {
-        case TD_SINGLE_HOLD: register_mods(MOD_BIT(KC_RIGHT_CTRL)); break;
-		case TD_DOUBLE_TAP: register_mods(MOD_BIT(KC_LGUI)); break;
-        case TD_DOUBLE_HOLD: register_mods(MOD_BIT(KC_LGUI)); break;
+        case TD_SINGLE_HOLD: register_code(KC_RIGHT_CTRL); break;
+		case TD_DOUBLE_TAP: register_code(KC_LGUI); break;
+        case TD_DOUBLE_HOLD: register_code(KC_LGUI); break;
 		default: break;
     }
 }
 
 void ctrlwin_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
-        case TD_SINGLE_HOLD: unregister_mods(MOD_BIT(KC_RIGHT_CTRL)); break;
-		case TD_DOUBLE_TAP: unregister_mods(MOD_BIT(KC_LGUI)); break;
-        case TD_DOUBLE_HOLD: unregister_mods(MOD_BIT(KC_LGUI)); break;
+        case TD_SINGLE_HOLD: unregister_code(KC_RIGHT_CTRL); break;
+		case TD_DOUBLE_TAP: unregister_code(KC_LGUI); break;
+        case TD_DOUBLE_HOLD: unregister_code(KC_LGUI); break;
 		default: break;
     }
 }
@@ -222,7 +222,7 @@ void tozero_finished(qk_tap_dance_state_t *state, void *user_data) {
     td_state = cur_dance(state);
     switch (td_state) {
         case TD_SINGLE_TAP: layer_move(0); break;
-        case TD_SINGLE_HOLD: register_mods(MOD_BIT(KC_RIGHT_CTRL)); break;
+        case TD_SINGLE_HOLD: register_code(KC_RIGHT_CTRL); break;
 		default: break;
     }
 }
@@ -230,7 +230,7 @@ void tozero_finished(qk_tap_dance_state_t *state, void *user_data) {
 void tozero_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
         case TD_SINGLE_TAP: layer_move(0); break;
-        case TD_SINGLE_HOLD: unregister_mods(MOD_BIT(KC_RIGHT_CTRL)); break;
+        case TD_SINGLE_HOLD: unregister_code(KC_RIGHT_CTRL); break;
 		default: break;
     }
 }
@@ -256,7 +256,7 @@ void totwo_finished(qk_tap_dance_state_t *state, void *user_data) {
     td_state = cur_dance(state);
     switch (td_state) {
         case TD_SINGLE_TAP: layer_move(2); break;
-        case TD_SINGLE_HOLD: register_mods(MOD_BIT(KC_LALT)); break;
+        case TD_SINGLE_HOLD: register_code(KC_LALT); break;
         case TD_DOUBLE_TAP: layer_move(3); break;
         case TD_DOUBLE_SINGLE_TAP: layer_move(3); break;
 		default: break;
@@ -266,7 +266,7 @@ void totwo_finished(qk_tap_dance_state_t *state, void *user_data) {
 void totwo_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
         case TD_SINGLE_TAP: layer_move(2); break;
-        case TD_SINGLE_HOLD: unregister_mods(MOD_BIT(KC_LALT)); break;
+        case TD_SINGLE_HOLD: unregister_code(KC_LALT); break;
         case TD_DOUBLE_TAP: layer_move(3); break;
         case TD_DOUBLE_SINGLE_TAP: layer_move(3); break;
 		default: break;
