@@ -84,7 +84,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		KC_NO,      KC_LEFT,    KC_DOWN, 	KC_RGHT, 	KC_NO,				        KC_MINS, 	KC_4, 	     KC_5, 	    KC_6, 	    KC_ENT,
 		KC_NO,      KC_HOME,    KC_NO, 	    KC_END, 	KC_NO, 				        KC_DOT, 	KC_1, 	     KC_2, 	    KC_3, 	    KC_DEL,
 
-								    KC_SFTENT, 	  KC_LEFT_CTRL, 				    TO(0), 	KC_RIGHT_CTRL),
+								TD(SHFT_CPS), 	  KC_LEFT_CTRL, 				    TO(0), 	    KC_0),
 							 																												//.
 
 
@@ -93,7 +93,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		KC_NO, 	    KC_MS_L, 	KC_MS_D, 	KC_MS_R, 	KC_NO, 						KC_WH_D, 	KC_BTN1, 	KC_BTN2, 	KC_BTN3, 	KC_BTN4,
 		KC_NO, 	    KC_NO, 		KC_NO, 		KC_NO, 		KC_NO, 						KC_NO, 		KC_ACL0, 	KC_ACL1, 	KC_ACL2, 	KC_BTN5,
 
-										    KC_NO, 	    TO(4), 						    TO(0), 	KC_NO),
+										    KC_NO, 	    TO(4), 						TO(0), 	    KC_NO),
 																																			//.
 
 
