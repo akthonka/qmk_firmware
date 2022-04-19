@@ -229,7 +229,7 @@ void tozero_finished(qk_tap_dance_state_t *state, void *user_data) {
 
 void tozero_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
-        case TD_SINGLE_TAP: layer_move(0); break;
+        case TD_SINGLE_TAP: break;
         case TD_SINGLE_HOLD: unregister_code(KC_RIGHT_CTRL); break;
 		default: break;
     }
@@ -246,7 +246,7 @@ void toone_finished(qk_tap_dance_state_t *state, void *user_data) {
 
 void toone_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
-        case TD_SINGLE_TAP: layer_move(1); break;
+        case TD_SINGLE_TAP: break;
         case TD_SINGLE_HOLD: layer_move(0); break;
 		default: break;
     }
@@ -265,10 +265,10 @@ void totwo_finished(qk_tap_dance_state_t *state, void *user_data) {
 
 void totwo_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
-        case TD_SINGLE_TAP: layer_move(2); break;
+        case TD_SINGLE_TAP: break;
         case TD_SINGLE_HOLD: unregister_code(KC_LALT); break;
-        case TD_DOUBLE_TAP: layer_move(3); break;
-        case TD_DOUBLE_SINGLE_TAP: layer_move(3); break;
+        case TD_DOUBLE_TAP: break;
+        case TD_DOUBLE_SINGLE_TAP: break;
 		default: break;
     }
 }
