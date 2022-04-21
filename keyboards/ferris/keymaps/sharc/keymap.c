@@ -10,6 +10,7 @@
 #define ALL LCTL(KC_A)
 #define CUT LCTL(KC_X)
 #define UNDO LCTL(KC_Z)
+#define REDO LCTL(KC_Y)
 
 
 typedef enum {
@@ -72,11 +73,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 																																			//.
 
 	[1] = LAYOUT_split_3x5_2(
-		KC_GESC, 	KC_AT, 		KC_HASH, 	KC_DLR,     KC_PERC, 			        KC_CIRC, 	KC_AMPR, 	    KC_ASTR, 	    KC_EQUAL, 	KC_BSPC,
-		KC_TAB, 	UNDO, 		COPY, 		PASTE,      KC_F2, 				        KC_MINS, 	TD(LPRN_LT),    TD(RPRN_GT),    KC_SCLN, 	KC_ENT,
-		ALL, 		KC_HOME, 	CUT, 	    KC_END,     TO(3), 				        KC_UNDS, 	KC_LBRC, 	    KC_RBRC, 	    KC_BSLS, 	KC_DEL,
+		KC_GESC, 	KC_1, 		KC_2, 	    KC_3,       KC_4, 			            KC_PERC,     KC_CIRC, 	    KC_AMPR, 	    KC_ASTR, 	KC_BSPC,
+		KC_TAB, 	ALL, 		COPY, 		PASTE,      TO(3), 				        KC_MINS, 	TD(LPRN_LT),    TD(RPRN_GT),    KC_SCLN, 	KC_ENT,
+		UNDO, 		REDO, 	    CUT, 	    KC_SPACE,   TO(2), 				        KC_UNDS, 	KC_LBRC, 	    KC_RBRC, 	    KC_BSLS, 	KC_DEL,
 
-								        KC_LSFT, 	TD(TO_TWO),			            TO(0),      KC_RIGHT_CTRL),
+								    CTRL_WIN, 	  KC_LEFT_ALT,			            TO(0),      KC_RIGHT_CTRL),
 																																			//.
 
 	[2] = LAYOUT_split_3x5_2(
@@ -97,15 +98,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 																																			//.
 
 
-	[4] = LAYOUT_split_3x5_2(
-		DEBUG, 	    KC_NO, 	    KC_NO, 	    KC_NO, 	    KC_NO, 					    KC_MPLY, 	KC_VOLU, 	KC_NO, 		KC_NO, 		KC_BRIU,
-		KC_NO, 	    KC_NO, 	    KC_NO, 	    KC_NO, 	    KC_NO, 					    KC_MSTP,	KC_VOLD, 	KC_MRWD, 	KC_MFFD, 	KC_BRID,
-		KC_NO, 	    KC_NO, 	    KC_NO, 	    KC_NO, 	    KC_NO, 					    KC_NO, 		KC_MUTE, 	KC_NO, 		KC_NO, 		KC_NO,
-
-							 	            KC_NO, 	    KC_NO, 					    TO(0), 	KC_NO),
-								 																											//.
-
-    [5] = LAYOUT_split_3x5_2(
+    [4] = LAYOUT_split_3x5_2(
         KC_NO, 	    KC_NO, 	    KC_NO, 	    KC_NO, 	    KC_NO, 					    KC_NO, 	KC_NO, 	KC_LBRC,    KC_NO, 	    KC_NO,
         KC_NO, 	    KC_MINS,    KC_NO, 	    KC_NO, 	    KC_NO, 					    KC_NO,	KC_NO, 	KC_NO, 	    KC_QUOT,    KC_SCLN,
         KC_NO, 	    KC_NO, 	    KC_NO, 	    KC_NO, 	    KC_NO, 					    KC_NO, 	KC_NO, 	KC_NO, 	    KC_NO, 	    KC_NO,
@@ -241,7 +234,7 @@ void toone_finished(qk_tap_dance_state_t *state, void *user_data) {
     td_state = cur_dance(state);
     switch (td_state) {
         case TD_SINGLE_TAP: layer_move(1); break;
-        case TD_SINGLE_HOLD: layer_move(5); break;
+        case TD_SINGLE_HOLD: layer_move(4); break;
         case TD_DOUBLE_TAP: layer_move(2); break;
         case TD_DOUBLE_SINGLE_TAP: layer_move(2); break;
         default: break;
