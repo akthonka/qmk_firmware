@@ -26,6 +26,7 @@ typedef enum {
 	TD_TRIPLE_SINGLE_TAP
 } td_state_t;
 
+
 typedef struct {
     bool is_press_action;
     td_state_t state;
@@ -34,8 +35,8 @@ typedef struct {
 // Tap dance enums
 enum {
     DOT_EXCL,
-    LPRN_LT,
-    RPRN_GT,
+    LBRC_LT,
+    RBRC_GT,
 	SHFT_CPS,
     CTRL_WIN,
     TO_ONE,
@@ -51,10 +52,10 @@ td_state_t cur_dance(qk_tap_dance_state_t *state);
 // Functions associated with individual tap dances
 void dotexcl_finished(qk_tap_dance_state_t *state, void *user_data);
 void dotexcl_reset(qk_tap_dance_state_t *state, void *user_data);
-void lprnlt_finished(qk_tap_dance_state_t *state, void *user_data);
-void lprnlt_reset(qk_tap_dance_state_t *state, void *user_data);
-void gtrngt_finished(qk_tap_dance_state_t *state, void *user_data);
-void gtrngt_reset(qk_tap_dance_state_t *state, void *user_data);
+void lbrclt_finished(qk_tap_dance_state_t *state, void *user_data);
+void lbrclt_reset(qk_tap_dance_state_t *state, void *user_data);
+void rbrcgt_finished(qk_tap_dance_state_t *state, void *user_data);
+void rbrcgt_reset(qk_tap_dance_state_t *state, void *user_data);
 void ctrlwin_finished(qk_tap_dance_state_t *state, void *user_data);
 void ctrlwin_reset(qk_tap_dance_state_t *state, void *user_data);
 void toone_finished(qk_tap_dance_state_t *state, void *user_data);
@@ -74,10 +75,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 	[1] = LAYOUT_split_3x5_2(
 		KC_GESC, 	KC_1, 		KC_2, 	    KC_3,       KC_4, 			            KC_PERC,    KC_CIRC, 	    KC_AMPR, 	    KC_ASTR, 	KC_BSPC,
-		KC_TAB, 	ALL, 		COPY, 		PASTE,      TO(3), 				        KC_MINS, 	TD(LPRN_LT),    TD(RPRN_GT),    KC_SCLN, 	KC_ENT,
-		UNDO, 		REDO, 	    CUT, 	    KC_SPACE,   TO(2), 				        KC_UNDS, 	KC_LBRC, 	    KC_RBRC, 	    KC_BSLS, 	KC_DEL,
+		KC_TAB, 	ALL, 		COPY, 		PASTE,      TO(3), 				        KC_MINS, 	KC_LPRN,        KC_RPRN,        KC_SCLN, 	KC_ENT,
+		UNDO, 		REDO, 	    CUT, 	    KC_SPACE,   TO(2), 				        KC_UNDS, 	TD(LBRC_LT), 	TD(RBRC_GT), 	KC_BSLS, 	KC_DEL,
 
-								    TD(CTRL_WIN), 	  KC_LEFT_ALT,			            TO(0),      KC_LSFT),
+								TD(CTRL_WIN), 	  KC_LEFT_ALT,			            TO(0),      KC_RIGHT_CTRL),
 																																			//.
 
 	[2] = LAYOUT_split_3x5_2(
@@ -85,7 +86,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		KC_TAB,     KC_LEFT,    KC_DOWN, 	KC_RGHT, 	KC_NO,				        KC_MINS, 	KC_4, 	     KC_5, 	    KC_6, 	    KC_ENT,
 		KC_NO,      KC_HOME,    KC_NO, 	    KC_END, 	KC_NO, 				        KC_DOT, 	KC_1, 	     KC_2, 	    KC_3, 	    KC_DEL,
 
-								TD(SHFT_CPS), 	  KC_LEFT_CTRL, 				    TO(0), 	    KC_0),
+							    TD(SHFT_CPS), 	 KC_LEFT_CTRL, 				        TO(0), 	    KC_0),
 							 																												//.
 
 
@@ -156,36 +157,44 @@ void dotexcl_reset(qk_tap_dance_state_t *state, void *user_data) {
     }
 }
 
-void lprnlt_finished(qk_tap_dance_state_t *state, void *user_data) {
+void lbrclt_finished(qk_tap_dance_state_t *state, void *user_data) {
     td_state = cur_dance(state);
     switch (td_state) {
-        case TD_SINGLE_TAP: register_code16(KC_LPRN); break;
+        case TD_SINGLE_TAP: register_code16(KC_LBRC); break;
         case TD_SINGLE_HOLD: register_code16(KC_LT); break;
+        case TD_DOUBLE_TAP: register_code16(KC_LCBR); break;
+        case TD_DOUBLE_SINGLE_TAP: register_code16(KC_LCBR); break;
 		default: break;
     }
 }
 
-void lprnlt_reset(qk_tap_dance_state_t *state, void *user_data) {
+void lbrclt_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
-        case TD_SINGLE_TAP: unregister_code16(KC_LPRN); break;
+        case TD_SINGLE_TAP: unregister_code16(KC_LBRC); break;
         case TD_SINGLE_HOLD: unregister_code16(KC_LT); break;
+        case TD_DOUBLE_TAP: unregister_code16(KC_LCBR); break;
+        case TD_DOUBLE_SINGLE_TAP: unregister_code16(KC_LCBR); break;
 		default: break;
     }
 }
 
-void rprngt_finished(qk_tap_dance_state_t *state, void *user_data) {
+void rbrcgt_finished(qk_tap_dance_state_t *state, void *user_data) {
     td_state = cur_dance(state);
     switch (td_state) {
-        case TD_SINGLE_TAP: register_code16(KC_RPRN); break;
+        case TD_SINGLE_TAP: register_code16(KC_RBRC); break;
         case TD_SINGLE_HOLD: register_code16(KC_GT); break;
+        case TD_DOUBLE_TAP: register_code16(KC_RCBR); break;
+        case TD_DOUBLE_SINGLE_TAP: register_code16(KC_RCBR); break;
 		default: break;
     }
 }
 
-void rprngt_reset(qk_tap_dance_state_t *state, void *user_data) {
+void rbrcgt_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
-        case TD_SINGLE_TAP: unregister_code16(KC_RPRN); break;
+        case TD_SINGLE_TAP: unregister_code16(KC_RBRC); break;
         case TD_SINGLE_HOLD: unregister_code16(KC_GT); break;
+        case TD_DOUBLE_TAP: unregister_code16(KC_RCBR); break;
+        case TD_DOUBLE_SINGLE_TAP: unregister_code16(KC_RCBR); break;
 		default: break;
     }
 }
@@ -281,8 +290,8 @@ void totwo_reset(qk_tap_dance_state_t *state, void *user_data) {
 // Associate tap dance key with its functionality
 qk_tap_dance_action_t tap_dance_actions[] = {
     [DOT_EXCL] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, dotexcl_finished, dotexcl_reset),
-    [LPRN_LT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, lprnlt_finished, lprnlt_reset),
-    [RPRN_GT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, rprngt_finished, rprngt_reset),
+    [LBRC_LT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, lbrclt_finished, lbrclt_reset),
+    [RBRC_GT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, rbrcgt_finished, rbrcgt_reset),
 	[SHFT_CPS] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, shftcps_finished, shftcps_reset),
     [CTRL_WIN] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, ctrlwin_finished, ctrlwin_reset),
     [TO_ONE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, toone_finished, toone_reset),
