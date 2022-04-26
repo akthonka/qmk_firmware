@@ -11,6 +11,8 @@
 #define CUT LCTL(KC_X)
 #define UNDO LCTL(KC_Z)
 #define REDO LCTL(KC_Y)
+#define LMON LGUI(LSFT(KC_LEFT))
+#define RMON RGUI(LSFT(KC_RIGHT))
 
 
 typedef enum {
@@ -75,18 +77,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 	[1] = LAYOUT_split_3x5_2(
 		KC_GESC, 	KC_1, 		KC_2, 	    KC_3,       KC_4, 			            KC_PERC,    KC_CIRC, 	    KC_AMPR, 	    KC_ASTR, 	KC_BSPC,
-		KC_TAB, 	ALL, 		COPY, 		PASTE,      TO(3), 				        KC_MINS, 	KC_LPRN,        KC_RPRN,        KC_SCLN, 	KC_ENT,
-		UNDO, 		REDO, 	    CUT, 	    KC_SPACE,   TO(2), 				        KC_UNDS, 	TD(LBRC_LT), 	TD(RBRC_GT), 	KC_BSLS, 	KC_DEL,
+		KC_TAB, 	ALL, 		COPY, 		PASTE,      KC_F2, 				        KC_MINS, 	KC_LPRN,        KC_RPRN,        KC_SCLN, 	KC_ENT,
+		UNDO, 		REDO, 	    CUT, 	    KC_LALT,    TO(2), 				        KC_UNDS, 	TD(LBRC_LT), 	TD(RBRC_GT), 	KC_BSLS, 	KC_DEL,
 
-								TD(CTRL_WIN), 	  KC_LEFT_ALT,			            TO(0),      KC_RIGHT_CTRL),
+								TD(SHFT_CPS), 	  TD(CTRL_WIN),			            TO(0),      KC_RIGHT_CTRL),
 																																			//.
 
 	[2] = LAYOUT_split_3x5_2(
-		KC_ESC,     KC_NO, 	    KC_UP, 		KC_NO, 		KC_NO, 				        KC_EQL, 	KC_7, 	     KC_8, 	    KC_9, 	    KC_BSPC,
-		KC_TAB,     KC_LEFT,    KC_DOWN, 	KC_RGHT, 	KC_NO,				        KC_MINS, 	KC_4, 	     KC_5, 	    KC_6, 	    KC_ENT,
+		KC_ESC,     LMON, 	    KC_UP, 		RMON, 		KC_NO, 				        KC_EQL, 	KC_7, 	     KC_8, 	    KC_9, 	    KC_BSPC,
+		KC_TAB,     KC_LEFT,    KC_DOWN, 	KC_RGHT, 	TO(3),				        KC_MINS, 	KC_4, 	     KC_5, 	    KC_6, 	    KC_ENT,
 		KC_NO,      KC_HOME,    KC_NO, 	    KC_END, 	KC_NO, 				        KC_DOT, 	KC_1, 	     KC_2, 	    KC_3, 	    KC_DEL,
 
-							    TD(SHFT_CPS), 	 KC_LEFT_CTRL, 				        TO(0), 	    KC_0),
+							    TD(SHFT_CPS), 	 TD(CTRL_WIN), 				        TO(0), 	    KC_0),
 							 																												//.
 
 
