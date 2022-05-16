@@ -13,6 +13,8 @@
 #define REDO LCTL(KC_Y)
 #define LMON LGUI(LSFT(KC_LEFT))
 #define RMON RGUI(LSFT(KC_RIGHT))
+#define LSEL LCTL(LSFT(KC_LEFT))
+#define RSEL LCTL(LSFT(KC_RIGHT))
 
 
 typedef enum {
@@ -42,7 +44,8 @@ enum {
 	SHFT_CPS,
     CTRL_WIN,
     TO_ONE,
-    TO_TWO
+    TO_TWO,
+    SLSH_UND
 };
 
 // Create a global instance of the tapdance state type
@@ -64,15 +67,43 @@ void toone_finished(qk_tap_dance_state_t *state, void *user_data);
 void toone_reset(qk_tap_dance_state_t *state, void *user_data);
 void totwo_finished(qk_tap_dance_state_t *state, void *user_data);
 void totwo_reset(qk_tap_dance_state_t *state, void *user_data);
+void slshund_finished(qk_tap_dance_state_t *state, void *user_data);
+void slshund_reset(qk_tap_dance_state_t *state, void *user_data);
+
+
+enum custom_keycodes {
+    CLINE = SAFE_RANGE, // copies the line to clipboard
+};
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+    case CLINE:
+        if (record->event.pressed) {
+            // when keycode CLINE is pressed
+            tap_code(KC_HOME);
+            register_code(KC_LSFT);
+            tap_code(KC_END);
+            unregister_code(KC_LSFT);
+        } else {
+            // when keycode QMKBEST is released
+            register_code(KC_LEFT_CTRL);
+            tap_code(KC_C);
+            unregister_code(KC_LEFT_CTRL);
+        }
+        break;
+    }
+    return true;
+};
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[0] = LAYOUT_split_3x5_2(
-		KC_Y, 	    KC_C, 	    KC_L, 		KC_M, 		KC_K, 						KC_Z, 	    KC_F, 		KC_U,	 	KC_COMMA, 		KC_QUOTE,
-		KC_I, 	    KC_S, 	    KC_R,	    KC_T, 	    KC_G,						KC_P, 	    KC_N,		KC_E,		KC_A, 			KC_O,
-		KC_Q, 	    KC_V, 	    KC_W, 		KC_D, 		KC_J, 						KC_B, 	    KC_H, 		KC_SLSH, 	TD(DOT_EXCL), 	KC_X,
+		KC_Y, 	    KC_C, 	    KC_L, 		KC_M, 		KC_K, 						KC_Z, 	    KC_F, 		KC_U,	 	    KC_COMMA, 		KC_QUOTE,
+		KC_I, 	    KC_S, 	    KC_R,	    KC_T, 	    KC_G,						KC_P, 	    KC_N,		KC_E,		    KC_A, 			KC_O,
+		KC_Q, 	    KC_V, 	    KC_W, 		KC_D, 		KC_J, 						KC_B, 	    KC_H, 		TD(SLSH_UND), 	TD(DOT_EXCL), 	KC_X,
 
 			  				        TD(SHFT_CPS), 	TD(TO_ONE), 	    			TD(CTRL_WIN), 	KC_SPACE),
+
 																																			//.
 
 	[1] = LAYOUT_split_3x5_2(
@@ -84,14 +115,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 																																			//.
 
 	[2] = LAYOUT_split_3x5_2(
-		KC_ESC,     LMON, 	    KC_UP, 		RMON, 		KC_NO, 				        KC_EQL, 	KC_7, 	     KC_8, 	    KC_9, 	    KC_BSPC,
+		KC_ESC,     LSEL, 	    KC_UP, 		RSEL, 		KC_NO, 				        KC_EQL, 	KC_7, 	     KC_8, 	    KC_9, 	    KC_BSPC,
 		KC_TAB,     KC_LEFT,    KC_DOWN, 	KC_RGHT, 	TO(3),				        KC_MINS, 	KC_4, 	     KC_5, 	    KC_6, 	    KC_ENT,
-		KC_NO,      KC_HOME,    KC_NO, 	    KC_END, 	KC_NO, 				        KC_DOT, 	KC_1, 	     KC_2, 	    KC_3, 	    KC_DEL,
+		LMON,       KC_HOME,    CLINE, 	    KC_END, 	RMON, 				        KC_DOT, 	KC_1, 	     KC_2, 	    KC_3, 	    KC_DEL,
 
 							    TD(SHFT_CPS), 	 TD(CTRL_WIN), 				        TO(0), 	    KC_0),
 							 																												//.
 
-
+            
 	[3] = LAYOUT_split_3x5_2(
 		KC_NO, 	    KC_NO, 		KC_MS_U, 	KC_NO, 		KC_NO, 						KC_WH_U, 	KC_WH_L, 	KC_WH_R, 	KC_NO, 		KC_BSPC,
 		KC_NO, 	    KC_MS_L, 	KC_MS_D, 	KC_MS_R, 	KC_NO, 						KC_WH_D, 	KC_BTN1, 	KC_BTN2, 	KC_BTN3, 	KC_ENT,
@@ -226,6 +257,7 @@ void ctrlwin_finished(qk_tap_dance_state_t *state, void *user_data) {
         case TD_SINGLE_TAP: register_code(KC_RIGHT_CTRL); break;
         case TD_SINGLE_HOLD: register_code(KC_RIGHT_CTRL); break;
 		case TD_DOUBLE_TAP: register_code(KC_LGUI); break;
+        case TD_DOUBLE_SINGLE_TAP: register_code(KC_LGUI); break;
         case TD_DOUBLE_HOLD: register_code(KC_LGUI); break;
 		default: break;
     }
@@ -236,6 +268,7 @@ void ctrlwin_reset(qk_tap_dance_state_t *state, void *user_data) {
         case TD_SINGLE_TAP: unregister_code(KC_RIGHT_CTRL); break;
         case TD_SINGLE_HOLD: unregister_code(KC_RIGHT_CTRL); break;
 		case TD_DOUBLE_TAP: unregister_code(KC_LGUI); break;
+        case TD_DOUBLE_SINGLE_TAP: unregister_code(KC_LGUI); break;
         case TD_DOUBLE_HOLD: unregister_code(KC_LGUI); break;
 		default: break;
     }
@@ -289,6 +322,23 @@ void totwo_reset(qk_tap_dance_state_t *state, void *user_data) {
     }
 }
 
+void slshund_finished(qk_tap_dance_state_t *state, void *user_data) {
+    td_state = cur_dance(state);
+    switch (td_state) {
+        case TD_SINGLE_TAP: register_code(KC_SLSH); break;
+        case TD_SINGLE_HOLD: register_code16(KC_UNDS); break;
+		default: break;
+    }
+}
+
+void slshund_reset(qk_tap_dance_state_t *state, void *user_data) {
+    switch (td_state) {
+        case TD_SINGLE_TAP: unregister_code(KC_SLSH); break;
+        case TD_SINGLE_HOLD: unregister_code16(KC_UNDS); break;
+		default: break;
+    }
+}
+
 // Associate tap dance key with its functionality
 qk_tap_dance_action_t tap_dance_actions[] = {
     [DOT_EXCL] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, dotexcl_finished, dotexcl_reset),
@@ -297,5 +347,6 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 	[SHFT_CPS] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, shftcps_finished, shftcps_reset),
     [CTRL_WIN] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, ctrlwin_finished, ctrlwin_reset),
     [TO_ONE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, toone_finished, toone_reset),
-    [TO_TWO] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, totwo_finished, totwo_reset)
+    [TO_TWO] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, totwo_finished, totwo_reset),
+    [SLSH_UND] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, slshund_finished, slshund_reset)
 };
