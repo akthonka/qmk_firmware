@@ -107,7 +107,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		KC_I, 	    KC_S, 	    KC_R,	    KC_T, 	    KC_G,						KC_P, 	    KC_N,		KC_E,		    KC_A, 			KC_O,
 		KC_Q, 	    KC_V, 	    KC_W, 		KC_D, 		KC_J, 						KC_B, 	    KC_H, 		TD(SLSH_UND), 	TD(DOT_EXCL), 	KC_X,
 
-			  				    TD(SHFT_CPS),       TD(TO_ONE),	    			    TD(CTRL_WIN),       KC_SPACE),
+			  				    TD(SHFT_CPS),     TD(TO_ONE),	    			    TD(CTRL_WIN),       KC_SPACE),
 
 																																			//.
 
@@ -116,7 +116,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		KC_TAB, 	ALL, 		COPY, 		PASTE,      KC_F2, 				        KC_F5, 	    KC_LPRN,        KC_RPRN,        KC_MINS, 	KC_ENT,
 		UNDO, 		REDO, 	    CUT, 	    KC_NO,      TO(2), 				        KC_F4, 	    TD(LBRC_LT), 	TD(RBRC_GT), 	KC_BSLS, 	KC_DEL,
 
-								KC_LALT, 	    TD(CTRL_WIN),			            TO(0),      KC_RIGHT_CTRL),
+								KC_LALT, 	     TD(CTRL_WIN),			            TO(0),      KC_RIGHT_CTRL),
 																																			//
 
 	[2] = LAYOUT_split_3x5_2(
@@ -124,7 +124,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		KC_TAB,     KC_LEFT,    KC_DOWN, 	KC_RGHT, 	TO(3),				        KC_MINS, 	KC_4, 	    KC_5, 	    KC_6, 	    KC_ENT,
 		LDSKTP,     KC_HOME,    CLINE, 	    KC_END, 	RDSKTP, 				    KC_DOT, 	KC_1, 	    KC_2, 	    KC_3, 	    KC_DEL,
 
-							    KC_LALT, 	    TD(CTRL_WIN), 				        TO(0), 	    KC_0),
+							    KC_LALT, 	     TD(CTRL_WIN), 				        TO(0), 	    KC_0),
 							 																												//
 
             
@@ -133,7 +133,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		KC_TAB, 	KC_MS_L, 	KC_MS_D, 	KC_MS_R, 	KC_NO, 						KC_WH_D, 	KC_BTN1, 	KC_BTN2, 	KC_BTN3, 	KC_ENT,
 		KC_NO, 	    LMON, 		KC_NO, 		RMON, 	    KC_NO, 						KC_NO, 		KC_ACL0, 	KC_ACL1, 	KC_ACL2, 	KC_DEL, 
 
-								KC_LALT,        TD(CTRL_WIN), 						TO(0), 	    KC_NO),
+								KC_LALT,         TD(CTRL_WIN), 						TO(0), 	    KC_NO),
 																																			//.
 
 
