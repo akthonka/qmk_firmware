@@ -107,42 +107,43 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		KC_I, 	    KC_S, 	    KC_R,	    KC_T, 	    KC_G,						KC_P, 	    KC_N,		KC_E,		    KC_A, 			KC_O,
 		KC_Q, 	    KC_V, 	    KC_W, 		KC_D, 		KC_J, 						KC_B, 	    KC_H, 		TD(SLSH_UND), 	TD(DOT_EXCL), 	KC_X,
 
-			  				        TD(SHFT_CPS), 	TD(TO_ONE), 	    			TD(CTRL_WIN), 	KC_SPACE),
+			  				    TD(SHFT_CPS),       TD(TO_ONE),	    			    TD(CTRL_WIN),       KC_SPACE),
 
 																																			//.
 
 	[1] = LAYOUT_split_3x5_2(
-		KC_GESC, 	KC_1, 		KC_2, 	    KC_3,       KC_4, 			            KC_PERC,    KC_CIRC, 	    KC_AMPR, 	    KC_ASTR, 	KC_BSPC,
+		KC_ESC, 	KC_1, 		KC_2, 	    KC_3,       KC_4, 			            KC_PERC,    KC_CIRC, 	    KC_AMPR, 	    KC_ASTR, 	KC_BSPC,
 		KC_TAB, 	ALL, 		COPY, 		PASTE,      KC_F2, 				        KC_F5, 	    KC_LPRN,        KC_RPRN,        KC_MINS, 	KC_ENT,
-		UNDO, 		REDO, 	    CUT, 	    KC_LALT,    TO(2), 				        KC_PSCR, 	TD(LBRC_LT), 	TD(RBRC_GT), 	KC_BSLS, 	KC_DEL,
+		UNDO, 		REDO, 	    CUT, 	    KC_NO,      TO(2), 				        KC_F4, 	    TD(LBRC_LT), 	TD(RBRC_GT), 	KC_BSLS, 	KC_DEL,
 
-								TD(SHFT_CPS), 	  TD(CTRL_WIN),			            TO(0),      KC_RIGHT_CTRL),
+								KC_LALT, 	    TD(CTRL_WIN),			            TO(0),      KC_RIGHT_CTRL),
 																																			//
 
 	[2] = LAYOUT_split_3x5_2(
-		KC_ESC,     LSEL, 	    KC_UP, 		RSEL, 		KC_NO, 				        KC_EQL, 	KC_7, 	     KC_8, 	    KC_9, 	    KC_BSPC,
-		KC_TAB,     KC_LEFT,    KC_DOWN, 	KC_RGHT, 	TO(3),				        KC_MINS, 	KC_4, 	     KC_5, 	    KC_6, 	    KC_ENT,
-		LDSKTP,     KC_HOME,    CLINE, 	    KC_END, 	RDSKTP, 				    KC_DOT, 	KC_1, 	     KC_2, 	    KC_3, 	    KC_DEL,
+		KC_ESC,     LSEL, 	    KC_UP, 		RSEL, 		KC_NO, 				        KC_EQL, 	KC_7, 	    KC_8, 	    KC_9, 	    KC_BSPC,
+		KC_TAB,     KC_LEFT,    KC_DOWN, 	KC_RGHT, 	TO(3),				        KC_MINS, 	KC_4, 	    KC_5, 	    KC_6, 	    KC_ENT,
+		LDSKTP,     KC_HOME,    CLINE, 	    KC_END, 	RDSKTP, 				    KC_DOT, 	KC_1, 	    KC_2, 	    KC_3, 	    KC_DEL,
 
-							    TD(SHFT_CPS), 	 TD(CTRL_WIN), 				        TO(0), 	    KC_0),
+							    KC_LALT, 	    TD(CTRL_WIN), 				        TO(0), 	    KC_0),
 							 																												//
 
             
 	[3] = LAYOUT_split_3x5_2(
-		KC_ESC, 	KC_NO, 		KC_MS_U, 	KC_NO, 		KC_NO, 						KC_WH_U, 	KC_WH_L, 	KC_WH_R, 	KC_NO, 		KC_BSPC,
+		KC_GESC, 	KC_NO, 		KC_MS_U, 	KC_NO, 		KC_PSCR, 					KC_WH_U, 	KC_WH_L, 	KC_WH_R, 	KC_BTN4,	KC_BSPC,
 		KC_TAB, 	KC_MS_L, 	KC_MS_D, 	KC_MS_R, 	KC_NO, 						KC_WH_D, 	KC_BTN1, 	KC_BTN2, 	KC_BTN3, 	KC_ENT,
-		LMON, 	    KC_NO, 		KC_NO, 		KC_NO, 		RMON, 						KC_NO, 		KC_ACL0, 	KC_ACL1, 	KC_ACL2, 	KC_DEL, 
+		KC_NO, 	    LMON, 		KC_NO, 		RMON, 	    KC_NO, 						KC_NO, 		KC_ACL0, 	KC_ACL1, 	KC_ACL2, 	KC_DEL, 
 
-										    KC_NO, 	    TO(4), 						TO(0), 	    KC_NO),
+								KC_LALT,        TD(CTRL_WIN), 						TO(0), 	    KC_NO),
 																																			//.
 
 
+    // German Keyboard Layout 
     [4] = LAYOUT_split_3x5_2(
-        KC_NO, 	    KC_NO, 	    KC_NO, 	    KC_NO, 	    KC_NO, 					    KC_NO, 	KC_NO, 	KC_LBRC,    KC_NO, 	    KC_NO,
-        KC_NO, 	    KC_MINS,    KC_NO, 	    KC_NO, 	    KC_NO, 					    KC_NO,	KC_NO, 	KC_NO, 	    KC_QUOT,    KC_SCLN,
-        KC_NO, 	    KC_NO, 	    KC_NO, 	    KC_NO, 	    KC_NO, 					    KC_NO, 	KC_NO, 	KC_NO, 	    KC_NO, 	    KC_NO,
+        KC_NO, 	    KC_NO, 	    KC_NO, 	    KC_NO, 	    KC_NO, 					    KC_NO, 	    KC_NO, 	    KC_LBRC,    KC_NO, 	    KC_NO,
+        KC_NO, 	    KC_MINS,    KC_NO, 	    KC_NO, 	    KC_NO, 					    KC_NO,	    KC_NO, 	    KC_NO, 	    KC_QUOT,    KC_SCLN,
+        KC_NO, 	    KC_NO, 	    KC_NO, 	    KC_NO, 	    KC_NO, 					    KC_NO, 	    KC_NO, 	    KC_NO, 	    KC_NO, 	    KC_NO,
 
-                                            KC_NO, 	    KC_NO, 					    TO(0), 	KC_NO)
+                                            KC_NO,      KC_NO, 					    TO(0), 	    KC_NO)
                                                                                                                                             //.
 };
 
@@ -286,10 +287,6 @@ void toone_finished(qk_tap_dance_state_t *state, void *user_data) {
             unregister_code(KC_SPACE);
             layer_move(4);
             break;
-        case TD_DOUBLE_SINGLE_TAP:
-            layer_move(1);
-            register_code(KC_LALT);
-            break;
         default: break;
     }
 }
@@ -303,7 +300,7 @@ void toone_reset(qk_tap_dance_state_t *state, void *user_data) {
             layer_move(0);
             break;
         case TD_DOUBLE_TAP: clear_keyboard(); break;
-        case TD_DOUBLE_SINGLE_TAP: unregister_code(KC_LALT); break;
+        case TD_DOUBLE_SINGLE_TAP:
 		default: break;
     }
 }
