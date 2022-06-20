@@ -114,7 +114,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[1] = LAYOUT_split_3x5_2(
 		KC_ESC, 	KC_EXLM,    KC_AT, 	    KC_HASH,    KC_DLR, 			        KC_PERC,    KC_CIRC, 	    KC_AMPR, 	    KC_ASTR, 	KC_BSPC,
 		KC_TAB, 	ALL, 		COPY, 		PASTE,      KC_F2, 				        KC_F5, 	    KC_LPRN,        KC_RPRN,        KC_MINS, 	KC_ENT,
-		UNDO, 		REDO, 	    CUT, 	    KC_F4,      TO(2), 				        KC_F11,	    TD(LBRC_LT), 	TD(RBRC_GT), 	KC_BSLS, 	KC_DEL,
+		UNDO, 		REDO, 	    CUT, 	    KC_LSFT,    TO(2), 				        KC_F4,	    TD(LBRC_LT), 	TD(RBRC_GT), 	KC_BSLS, 	KC_DEL,
 
 								KC_LALT, 	     TD(CTRL_WIN),			            TO(0),      KC_RIGHT_CTRL),
 																																			//
