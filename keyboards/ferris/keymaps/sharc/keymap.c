@@ -103,6 +103,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 };
 
+// NOTE: Avoid tap dance functions between "fast swapping" (i.e. within the hold window time period) layers!
+//       This leads to a bug where qmk has permanently stuck hold-function keys, even with clear_keyboard()
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[0] = LAYOUT_split_3x5_2(
@@ -115,9 +117,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 																																			//.
 
 	[1] = LAYOUT_split_3x5_2(
-		KC_ESC, 	KC_EXLM,    KC_AT, 	    KC_HASH,    KC_DLR, 			        KC_PERC,    KC_CIRC, 	    KC_AMPR, 	    KC_ASTR, 	KC_BSPC,
-		KC_TAB, 	ALL, 		COPY, 		PASTE,      KC_F2, 				        KC_F5, 	    KC_LPRN,        KC_RPRN,        KC_MINS, 	KC_ENT,
-		UNDO, 		REDO, 	    CUT, 	    KC_LSFT,    TO(2), 				        KC_F4,	    TD(LBRC_LT), 	TD(RBRC_GT), 	KC_BSLS, 	KC_DEL,
+		KC_ESC, 	KC_EXLM,    KC_AT, 	    KC_HASH,    KC_DLR, 			        KC_PERC,    KC_CIRC, 	KC_AMPR, 	    KC_ASTR, 	    KC_BSPC,
+		KC_TAB, 	ALL, 		COPY, 		PASTE,      KC_F2, 				        KC_F5, 	    KC_MINS,    KC_LPRN,        KC_RPRN, 	    KC_ENT,
+		UNDO, 		REDO, 	    CUT, 	    KC_LSFT,    TO(2), 				        KC_F4,      KC_BSLS,	TD(LBRC_LT), 	TD(RBRC_GT),    KC_DEL,
 
 								KC_LALT, 	     TD(CTRL_WIN),			            TO(0),      KC_RIGHT_CTRL),
 																																			//
@@ -136,7 +138,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		KC_TAB, 	KC_MS_L, 	KC_MS_D, 	KC_MS_R, 	KC_NO, 						KC_WH_D, 	KC_ACL0, 	KC_ACL1, 	KC_ACL2, 	KC_ENT,
 		LMON, 	    KC_WH_L, 	KC_NO, 		KC_WH_R, 	RMON, 						KC_NO, 		KC_BTN2, 	KC_BTN4, 	KC_BTN5, 	KC_DEL, 
 
-								KC_LALT,         TD(CTRL_WIN), 						TO(0), 	    KC_BTN1),
+                            KC_LALT,         TD(CTRL_WIN), 						TO(0), 	    KC_BTN1),
 																																			//.
 
 
@@ -173,15 +175,15 @@ td_state_t cur_dance(qk_tap_dance_state_t *state) {
 
 // Individual tap dance definitons
 
-// Functions that control what our tap dance key does
 void dotexcl_finished(qk_tap_dance_state_t *state, void *user_data) {
     td_state = cur_dance(state);
     switch (td_state) {
-        case TD_SINGLE_TAP: register_code(KC_DOT);break;
+        case TD_SINGLE_TAP: register_code(KC_DOT); break;
         case TD_SINGLE_HOLD: register_code16(KC_EXLM); break;
 		case TD_DOUBLE_TAP: register_code16(KC_COLN); break;
         case TD_DOUBLE_SINGLE_TAP: tap_code16(KC_COLN); break;
 		case TD_TRIPLE_TAP: tap_code(KC_DOT); register_code(KC_DOT); register_code(KC_DOT); break;
+        case TD_TRIPLE_SINGLE_TAP: tap_code(KC_DOT); register_code(KC_DOT); register_code(KC_DOT); break;
 		default: break;
     }
 }
@@ -193,6 +195,7 @@ void dotexcl_reset(qk_tap_dance_state_t *state, void *user_data) {
 		case TD_DOUBLE_TAP: unregister_code16(KC_COLN); break;
         case TD_DOUBLE_SINGLE_TAP: unregister_code16(KC_COLN); break;
 		case TD_TRIPLE_TAP: unregister_code(KC_DOT); break;
+        case TD_TRIPLE_SINGLE_TAP: unregister_code(KC_DOT); break;
 		default: break;
     }
 }
@@ -303,7 +306,6 @@ void toone_reset(qk_tap_dance_state_t *state, void *user_data) {
             layer_move(0);
             break;
         case TD_DOUBLE_TAP: clear_keyboard(); break;
-        case TD_DOUBLE_SINGLE_TAP:
 		default: break;
     }
 }
@@ -395,5 +397,5 @@ qk_tap_dance_action_t tap_dance_actions[] = {
     [TO_TWO] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, totwo_finished, totwo_reset),
     [SLSH_UND] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, slshund_finished, slshund_reset),
     [COMM_SEM] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, commsem_finished, commsem_reset),
-    [PLS_MINS] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, plsmins_finished, plsmins_reset)
+    [PLS_MINS] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, plsmins_finished, plsmins_reset),
 };
