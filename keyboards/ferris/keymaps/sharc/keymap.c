@@ -122,24 +122,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[1] = LAYOUT_split_3x5_2(
 		KC_ESC, 	KC_EXLM,    KC_AT, 	    KC_HASH,    KC_DLR, 			        KC_PERC,    KC_CIRC, 	KC_AMPR, 	    KC_ASTR, 	    KC_BSPC,
 		KC_TAB, 	ALL, 		COPY, 		PASTE,      KC_F2, 				        KC_EQL, 	KC_MINS,    KC_LPRN,        KC_RPRN, 	    KC_ENT,
-		UNDO, 		REDO, 	    CUT, 	    KC_LSFT,    TO(2), 				        WRDDEL,     KC_BSLS,	TD(LBRC_LT), 	TD(RBRC_GT),    KC_DEL,
+		UNDO, 		REDO, 	    CUT, 	    KC_F4,      TO(2), 				        WRDDEL,     KC_BSLS,	TD(LBRC_LT), 	TD(RBRC_GT),    KC_DEL,
 
-								KC_LALT, 	     TD(CTRL_WIN),			            TO(0),      KC_SPACE),
+								KC_LALT, 	     TD(CTRL_WIN),			            TO(0),      KC_LSFT),
 																																			//
 
 	[2] = LAYOUT_split_3x5_2(
 		KC_ESC,     LSEL, 	    KC_UP, 		RSEL, 		KC_NO, 				        TD(PLS_MINS),   KC_7, 	    KC_8, 	    KC_9, 	    KC_BSPC,
 		KC_TAB,     KC_LEFT,    KC_DOWN, 	KC_RGHT, 	TO(3),				        KC_EQL,         KC_4, 	    KC_5, 	    KC_6, 	    KC_ENT,
-		LDSKTP,     KC_HOME,    CLINE, 	    KC_END, 	RDSKTP, 				    KC_DOT, 	    KC_1, 	    KC_2, 	    KC_3, 	    KC_DEL,
+		KC_NO,      KC_HOME,    CLINE, 	    KC_END, 	KC_NO, 				        KC_DOT, 	    KC_1, 	    KC_2, 	    KC_3, 	    KC_DEL,
 
 							    KC_LSFT, 	     TD(CTRL_WIN), 				        TO(0), 	        KC_0),
 							 																												//
 
             
 	[3] = LAYOUT_split_3x5_2(
-		KC_GESC, 	KC_NO, 	    KC_MS_U, 	KC_NO, 	    KC_PSCR, 					KC_WH_U, 	KC_BTN3, 	LTAB, 	    RTAB,	    KC_BSPC,
+		KC_GESC, 	LDSKTP, 	KC_MS_U, 	RDSKTP, 	KC_PSCR, 					KC_WH_U, 	KC_BTN3, 	LTAB, 	    RTAB,	    KC_BSPC,
 		KC_TAB, 	KC_MS_L, 	KC_MS_D, 	KC_MS_R, 	KC_F5, 						KC_WH_D, 	KC_ACL0, 	KC_ACL1, 	KC_ACL2, 	KC_ENT,
-		LMON, 	    KC_WH_L, 	KC_F4, 		KC_WH_R, 	RMON, 						KC_NO, 		KC_BTN2, 	KC_BTN4, 	KC_BTN5, 	KC_DEL, 
+		LMON, 	    KC_WH_L, 	KC_NO, 		KC_WH_R, 	RMON, 						KC_NO, 		KC_BTN2, 	KC_BTN4, 	KC_BTN5, 	KC_DEL, 
 
                                 KC_LALT,         TD(CTRL_WIN), 						TO(0), 	    KC_BTN1),
 																																			//.
